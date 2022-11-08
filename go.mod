@@ -1,4 +1,4 @@
-module github.com/xlab/at
+module github.com/sisoftrg/at
 
 go 1.17
 

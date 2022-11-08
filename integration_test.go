@@ -6,8 +6,8 @@ package at
 import (
 	"testing"
 
+	"github.com/sisoftrg/at/pdu"
 	"github.com/stretchr/testify/assert"
-	"github.com/xlab/at/pdu"
 )
 
 // Needs to be changed for each particular configuration.

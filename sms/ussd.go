@@ -1,6 +1,6 @@
 package sms
 
-import "github.com/xlab/at/pdu"
+import "github.com/sisoftrg/at/pdu"
 
 // USSD represents an USSD query string.
 type USSD string

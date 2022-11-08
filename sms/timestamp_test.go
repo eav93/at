@@ -4,8 +4,8 @@ import (
 	"testing"
 	"time"
 
+	"github.com/sisoftrg/at/util"
 	"github.com/stretchr/testify/assert"
-	"github.com/xlab/at/util"
 )
 
 func TestTimestamp_PDU(t *testing.T) {

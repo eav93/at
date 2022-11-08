@@ -3,7 +3,7 @@ package sms
 import (
 	"time"
 
-	"github.com/xlab/at/pdu"
+	"github.com/sisoftrg/at/pdu"
 )
 
 // Timestamp represents message's timestamp.
@@ -14,9 +14,9 @@ type Timestamp time.Time
 //
 // TP-Service-Centre-Time-Stamp (TP-SCTS)
 //
-//  |             | Year | Month | Day | Hour | Minute | Second | Time Zone |
-//  |-------------|------|-------|-----|------|--------|--------|-----------|
-//  | Semi-octets |   2  |   2   |  2  |   2  |    2   |    2   |     2     |
+//	|             | Year | Month | Day | Hour | Minute | Second | Time Zone |
+//	|-------------|------|-------|-----|------|--------|--------|-----------|
+//	| Semi-octets |   2  |   2   |  2  |   2  |    2   |    2   |     2     |
 //
 // The Time Zone indicates the difference, expressed in quarters of an hour,
 // between the local time and GMT. In the first of the two semi-octets, the

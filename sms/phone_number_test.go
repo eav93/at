@@ -3,9 +3,9 @@ package sms
 import (
 	"testing"
 
+	"github.com/sisoftrg/at/util"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
-	"github.com/xlab/at/util"
 )
 
 func TestPhoneNumber(t *testing.T) {

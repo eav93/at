@@ -6,8 +6,8 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/xlab/at"
-	"github.com/xlab/at/sms"
+	"github.com/sisoftrg/at"
+	"github.com/sisoftrg/at/sms"
 )
 
 const (

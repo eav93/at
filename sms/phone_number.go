@@ -6,7 +6,7 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/xlab/at/pdu"
+	"github.com/sisoftrg/at/pdu"
 )
 
 // PhoneNumber represents the address in either local or international format.

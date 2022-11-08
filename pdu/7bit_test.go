@@ -4,8 +4,8 @@ import (
 	"log"
 	"testing"
 
+	"github.com/sisoftrg/at/util"
 	"github.com/stretchr/testify/assert"
-	"github.com/xlab/at/util"
 )
 
 func TestIs7BitEncodable(t *testing.T) {

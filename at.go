@@ -7,9 +7,9 @@ import (
 	"strings"
 	"time"
 
-	"github.com/xlab/at/calls"
-	"github.com/xlab/at/pdu"
-	"github.com/xlab/at/sms"
+	"github.com/sisoftrg/at/calls"
+	"github.com/sisoftrg/at/pdu"
+	"github.com/sisoftrg/at/sms"
 )
 
 // DefaultTimeout to close the connection in case of modem is being not responsive at all.
