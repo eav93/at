@@ -116,7 +116,7 @@ func (p *PhoneNumber) ReadFrom(octets []byte) error {
 	case PhoneNumberTypes.International:
 		addr := pdu.DecodeSemiAddress(octets[1:])
 		*p = PhoneNumber("+" + addr)
-	case PhoneNumberTypes.National:
+	case PhoneNumberTypes.National, PhoneNumberTypes.Unknown:
 		addr := pdu.DecodeSemiAddress(octets[1:])
 		*p = PhoneNumber(addr)
 	default:
