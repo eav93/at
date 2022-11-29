@@ -57,7 +57,7 @@ func blocks(n, block int) int {
 
 func cutStr(str string, n int) string {
 	runes := []rune(str)
-	if n < len(str) {
+	if n < len(runes) {
 		return string(runes[0:n])
 	}
 	return str
