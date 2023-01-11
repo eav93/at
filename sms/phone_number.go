@@ -87,15 +87,19 @@ func (p PhoneNumber) PDU() (int, []byte, error) {
 }
 
 // Type returns the type of address (a combination of type-of-number and
-// numbering-plan-identification). Currently, only national and
+// numbering-plan-identification). Currently, only short (private), national and
 // international E.164 numbers are understood. While ReadFrom() can
 // parse alphanumeric numbers, Type() doesn't recognize it.
 func (p PhoneNumber) Type() byte {
 	typ := PhoneNumberTypes.National
+	plan := NumberingPlans.E164
 	if strings.HasPrefix(string(p), "+") {
 		typ = PhoneNumberTypes.International
+	} else if len(p) < 5 {
+		typ = PhoneNumberTypes.NetworkSpecific
+		plan = NumberingPlans.Private
 	}
-	return 0x80 | byte(typ) | byte(NumberingPlans.E164)
+	return 0x80 | byte(typ) | byte(plan)
 }
 
 // ReadFrom constructs an address from the semi-decoded version in the supplied byte slice.
