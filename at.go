@@ -161,7 +161,8 @@ func (d *Device) Send(req string) (reply string, err error) {
 
 		var line string
 		buf := bufio.NewReader(d.cmdPort)
-		if line, err = buf.ReadString('\r'); err != nil {
+		// Read until either '\r' or '\n' to handle different line endings
+		if line, err = readUntilDelimiter(buf); err != nil {
 			log.Println("return error")
 			return err
 		}
@@ -173,7 +174,7 @@ func (d *Device) Send(req string) (reply string, err error) {
 
 		var done bool
 		for !done {
-			if line, err = buf.ReadString('\r'); err != nil {
+			if line, err = readUntilDelimiter(buf); err != nil {
 				break
 			}
 			text := strings.TrimSpace(line)
@@ -209,6 +210,29 @@ func (d *Device) Send(req string) (reply string, err error) {
 	})
 
 	return
+}
+
+// readUntilDelimiter reads from the buffer until it encounters either '\r' or '\n' or both
+// This makes the code more robust across different operating systems with different line ending conventions
+func readUntilDelimiter(buf *bufio.Reader) (string, error) {
+	var line []byte
+	var isPrefix bool
+	var err error
+
+	for {
+		var chunk []byte
+		chunk, isPrefix, err = buf.ReadLine()
+		if err != nil {
+			return string(line), err
+		}
+
+		line = append(line, chunk...)
+		if !isPrefix {
+			break
+		}
+	}
+
+	return string(line), nil
 }
 
 // runs the passed method with a timeout set on the cmdPort
@@ -251,7 +275,7 @@ func (d *Device) Watch() error {
 		case <-d.closed:
 			return nil
 		default:
-			line, err := buf.ReadString(byte('\r'))
+			line, err := readUntilDelimiter(buf)
 			if err != nil {
 				d.Close()
 				return nil
