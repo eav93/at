@@ -11,7 +11,7 @@ import (
 )
 
 const (
-	BalanceUSSD          = "*100#"
+	BalanceUSSD          = "*105#"
 	BalanceCheckInterval = time.Minute
 	DeviceCheckInterval  = time.Second * 10
 )
