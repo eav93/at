@@ -149,6 +149,8 @@ func (d *Device) Send(req string) (reply string, err error) {
 		return
 	}
 
+	log.Println("wait answer")
+
 	err = d.withTimeout(func() error {
 		_, err := d.cmdPort.Write([]byte(req + Sep))
 		if err != nil {
