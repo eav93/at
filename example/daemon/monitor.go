@@ -135,6 +135,7 @@ func (m *Monitor) openDevice() (err error) {
 	}
 	log.Println("Device opened")
 	if err = m.dev.Init(at.DeviceE173()); err != nil {
+		log.Println(err)
 		return
 	}
 	log.Println("Device initialized")
