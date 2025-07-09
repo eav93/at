@@ -60,15 +60,15 @@ func (p *DefaultProfile) Init(d *Device) (err error) {
 	//if info, err = p.SYSINFO(); err != nil {
 	//	return fmt.Errorf("at init: unable to read system info: %w", err)
 	//}
-	//p.dev.State = &DeviceState{
-	//	ServiceState:  info.ServiceState,
-	//	ServiceState:  info.ServiceState,
-	//	ServiceDomain: info.ServiceDomain,
-	//	RoamingState:  info.RoamingState,
-	//	SystemMode:    info.SystemMode,
-	//	SystemSubmode: info.SystemSubmode,
-	//	SimState:      info.SimState,
-	//}
+	p.dev.State = &DeviceState{
+		//ServiceState:  info.ServiceState,
+		//ServiceState:  info.ServiceState,
+		//ServiceDomain: info.ServiceDomain,
+		//RoamingState:  info.RoamingState,
+		//SystemMode:    info.SystemMode,
+		//SystemSubmode: info.SystemSubmode,
+		//SimState:      info.SimState,
+	}
 	if p.dev.State.OperatorName, err = p.OperatorName(); err != nil {
 		return fmt.Errorf("at init: unable to read operator's name: %w", err)
 	}
