@@ -4,7 +4,7 @@ import "log"
 
 const (
 	CommandPortPath = "/dev/ttyUSB0"
-	NotifyPortPath  = ""
+	NotifyPortPath  = "/dev/ttyUSB1"
 	WebPort         = 5051
 )
 

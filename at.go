@@ -3,7 +3,6 @@ package at
 import (
 	"bufio"
 	"errors"
-	"log"
 	"os"
 	"strings"
 	"time"
@@ -130,9 +129,9 @@ func (d *Device) sanityCheck(initialized bool) error {
 	if d.cmdPort == nil {
 		return ErrClosed
 	}
-	//if d.notifyPort == nil {
-	//	return ErrClosed
-	//}
+	if d.notifyPort == nil {
+		return ErrClosed
+	}
 	if initialized {
 		if d.Commands == nil {
 			return ErrNotInitialized
@@ -376,7 +375,6 @@ func (d *Device) handleReport(str string) (err error) {
 // The method returns error if open was not succeed, i.e. if device is absent.
 func (d *Device) Open() (err error) {
 	if d.cmdPort, err = os.OpenFile(d.CommandPort, os.O_RDWR, 0); err != nil {
-		log.Fatal(err)
 		return
 	}
 	if d.NotifyPort != "" && d.NotifyPort != d.CommandPort {

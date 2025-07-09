@@ -131,11 +131,9 @@ func (m *Monitor) openDevice() (err error) {
 		NotifyPort:  m.notifyPort,
 	}
 	if err = m.dev.Open(); err != nil {
-		log.Fatal(err)
 		return
 	}
 	if err = m.dev.Init(at.DeviceE173()); err != nil {
-		log.Fatal(err)
 		return
 	}
 	return
