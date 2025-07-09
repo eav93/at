@@ -161,6 +161,7 @@ func (d *Device) Send(req string) (reply string, err error) {
 
 		//var line string
 		buf := bufio.NewReader(d.cmdPort)
+		log.Println("reader init")
 		readBuf := make([]byte, 1024)
 		n, err := buf.Read(readBuf)
 		if err != nil {
