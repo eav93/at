@@ -161,6 +161,7 @@ func (d *Device) Send(req string) (reply string, err error) {
 			return err
 		}
 		text := strings.TrimSpace(line)
+		log.Println(text)
 		if !strings.HasPrefix(req, text) {
 			return err
 		}
