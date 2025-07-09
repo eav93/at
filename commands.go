@@ -474,6 +474,7 @@ type SystemInfoReport struct {
 
 // Parse scans the AT^SYSINFO report into a non-nil SystemInfoReport struct.
 func (s *SystemInfoReport) Parse(str string) (err error) {
+	log.Println(str)
 	fields := strings.Split(str, ",")
 	if len(fields) < 7 {
 		return ErrParseReport
