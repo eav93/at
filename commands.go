@@ -52,9 +52,9 @@ type DefaultProfile struct {
 func (p *DefaultProfile) Init(d *Device) (err error) {
 	p.dev = d
 	p.dev.Send(NoopCmd) // kinda flush
-	if err = p.COPS(true, true); err != nil {
-		return fmt.Errorf("at init: unable to adjust the format of operator's name: %w", err)
-	}
+	//if err = p.COPS(true, true); err != nil {
+	//	return fmt.Errorf("at init: unable to adjust the format of operator's name: %w", err)
+	//}
 	var info *SystemInfoReport
 	if info, err = p.SYSINFO(); err != nil {
 		return fmt.Errorf("at init: unable to read system info: %w", err)
