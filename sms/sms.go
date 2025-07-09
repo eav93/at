@@ -7,7 +7,7 @@ import (
 	"io"
 	"unicode/utf8"
 
-	"github.com/sisoftrg/at/pdu"
+	"github.com/eav93/at/pdu"
 )
 
 // Common errors.

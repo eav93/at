@@ -3,7 +3,7 @@ package sms
 import (
 	"time"
 
-	"github.com/sisoftrg/at/pdu"
+	"github.com/eav93/at/pdu"
 )
 
 // Timestamp represents message's timestamp.

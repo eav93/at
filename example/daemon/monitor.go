@@ -6,8 +6,8 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/sisoftrg/at"
-	"github.com/sisoftrg/at/sms"
+	"github.com/eav93/at"
+	"github.com/eav93/at/sms"
 )
 
 const (
@@ -131,9 +131,11 @@ func (m *Monitor) openDevice() (err error) {
 		NotifyPort:  m.notifyPort,
 	}
 	if err = m.dev.Open(); err != nil {
+		log.Fatal(err)
 		return
 	}
 	if err = m.dev.Init(at.DeviceE173()); err != nil {
+		log.Fatal(err)
 		return
 	}
 	return

@@ -5,10 +5,10 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/sisoftrg/at/calls"
-	"github.com/sisoftrg/at/pdu"
-	"github.com/sisoftrg/at/sms"
-	"github.com/sisoftrg/at/util"
+	"github.com/eav93/at/calls"
+	"github.com/eav93/at/pdu"
+	"github.com/eav93/at/sms"
+	"github.com/eav93/at/util"
 )
 
 // DeviceProfile hides the device-specific implementation

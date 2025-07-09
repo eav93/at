@@ -1,6 +1,6 @@
 package sms
 
-import "github.com/sisoftrg/at/pdu"
+import "github.com/eav93/at/pdu"
 
 // USSD represents an USSD query string.
 type USSD string

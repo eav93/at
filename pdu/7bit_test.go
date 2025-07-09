@@ -4,7 +4,7 @@ import (
 	"log"
 	"testing"
 
-	"github.com/sisoftrg/at/util"
+	"github.com/eav93/at/util"
 	"github.com/stretchr/testify/assert"
 )
 

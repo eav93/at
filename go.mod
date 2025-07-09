@@ -1,4 +1,4 @@
-module github.com/sisoftrg/at
+module github.com/eav93/at
 
 go 1.17
 

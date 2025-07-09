@@ -3,13 +3,14 @@ package at
 import (
 	"bufio"
 	"errors"
+	"log"
 	"os"
 	"strings"
 	"time"
 
-	"github.com/sisoftrg/at/calls"
-	"github.com/sisoftrg/at/pdu"
-	"github.com/sisoftrg/at/sms"
+	"github.com/eav93/at/calls"
+	"github.com/eav93/at/pdu"
+	"github.com/eav93/at/sms"
 )
 
 // DefaultTimeout to close the connection in case of modem is being not responsive at all.
@@ -375,6 +376,7 @@ func (d *Device) handleReport(str string) (err error) {
 // The method returns error if open was not succeed, i.e. if device is absent.
 func (d *Device) Open() (err error) {
 	if d.cmdPort, err = os.OpenFile(d.CommandPort, os.O_RDWR, 0); err != nil {
+		log.Fatal(err)
 		return
 	}
 	if d.NotifyPort != "" && d.NotifyPort != d.CommandPort {

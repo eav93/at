@@ -3,8 +3,8 @@ package main
 import "log"
 
 const (
-	CommandPortPath = "/dev/tty.HUAWEIMobile-Modem"
-	NotifyPortPath  = "/dev/tty.HUAWEIMobile-Pcui"
+	CommandPortPath = "/dev/ttyUSB0"
+	NotifyPortPath  = ""
 	WebPort         = 5051
 )
 

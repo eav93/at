@@ -6,7 +6,7 @@ package at
 import (
 	"testing"
 
-	"github.com/sisoftrg/at/pdu"
+	"github.com/eav93/at/pdu"
 	"github.com/stretchr/testify/assert"
 )
 
