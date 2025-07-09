@@ -130,9 +130,9 @@ func (d *Device) sanityCheck(initialized bool) error {
 	if d.cmdPort == nil {
 		return ErrClosed
 	}
-	if d.notifyPort == nil {
-		return ErrClosed
-	}
+	//if d.notifyPort == nil {
+	//	return ErrClosed
+	//}
 	if initialized {
 		if d.Commands == nil {
 			return ErrNotInitialized
