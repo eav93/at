@@ -152,9 +152,6 @@ func (d *Device) Send(req string) (reply string, err error) {
 	log.Println("wait answer")
 
 	err = d.withTimeout(func() error {
-
-		buf := bufio.NewReader(d.cmdPort)
-
 		_, err := d.cmdPort.Write([]byte(req + Sep))
 		if err != nil {
 			return err
@@ -163,52 +160,66 @@ func (d *Device) Send(req string) (reply string, err error) {
 		log.Println("send")
 
 		var line string
-
-		if line, err = buf.ReadString('\r'); err != nil {
-			log.Println("return error")
-			return err
-		}
-		text := strings.TrimSpace(line)
-		log.Println("text: " + text)
-		if !strings.HasPrefix(req, text) {
+		buf := bufio.NewReader(d.cmdPort)
+		readBuf := make([]byte, 1024)
+		n, err := buf.Read(readBuf)
+		if err != nil {
+			log.Println("read error:", err)
 			return err
 		}
 
-		var done bool
-		for !done {
-			if line, err = buf.ReadString('\r'); err != nil {
-				break
-			}
-			text := strings.TrimSpace(line)
+		// Вывод "сырых" данных
+		log.Printf("RAW (%d bytes):\n%s\n", n, string(readBuf[:n]))
+		log.Printf("HEX:\n% x\n", readBuf[:n])
 
-			if len(text) < 1 {
-				continue
-			}
-
-			log.Println(text)
-
-			switch opt := FinalResults.Resolve(text); opt {
-			case FinalResults.Ok, FinalResults.Noop:
-				done = true
-			case FinalResults.Timeout:
-				err = ErrTimeout
-				done = true
-			case FinalResults.CmeError, FinalResults.CmsError:
-				err = errors.New(text)
-				done = true
-			case FinalResults.Error, FinalResults.NotSupported,
-				FinalResults.TooManyParameters, FinalResults.NoCarrier:
-				err = errors.New(opt.Description)
-				done = true
-			default:
-				if len(reply) > 0 {
-					reply += "\n"
-				}
-				reply += text
-			}
-		}
-
-		return err
+		// Пока ничего не парсим, просто выводим — для анализа
+		return nil
+		//
+		//if line, err = buf.ReadString('\r'); err != nil {
+		//	log.Println("return error")
+		//	return err
+		//}
+		//text := strings.TrimSpace(line)
+		//log.Println("text: " + text)
+		//if !strings.HasPrefix(req, text) {
+		//	return err
+		//}
+		//
+		//var done bool
+		//for !done {
+		//	if line, err = buf.ReadString('\r'); err != nil {
+		//		break
+		//	}
+		//	text := strings.TrimSpace(line)
+		//
+		//	if len(text) < 1 {
+		//		continue
+		//	}
+		//
+		//	log.Println(text)
+		//
+		//	switch opt := FinalResults.Resolve(text); opt {
+		//	case FinalResults.Ok, FinalResults.Noop:
+		//		done = true
+		//	case FinalResults.Timeout:
+		//		err = ErrTimeout
+		//		done = true
+		//	case FinalResults.CmeError, FinalResults.CmsError:
+		//		err = errors.New(text)
+		//		done = true
+		//	case FinalResults.Error, FinalResults.NotSupported,
+		//		FinalResults.TooManyParameters, FinalResults.NoCarrier:
+		//		err = errors.New(opt.Description)
+		//		done = true
+		//	default:
+		//		if len(reply) > 0 {
+		//			reply += "\n"
+		//		}
+		//		reply += text
+		//	}
+		//}
+		//
+		//return err
 	})
 
 	return
