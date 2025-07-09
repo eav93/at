@@ -160,20 +160,21 @@ func (d *Device) Send(req string) (reply string, err error) {
 		log.Println("send")
 
 		d.cmdPort.SetReadDeadline(time.Now().Add(2 * time.Second))
-
-		//var line string
-		buf := bufio.NewReader(d.cmdPort)
-		log.Println("reader init")
-		readBuf := make([]byte, 1024)
-		n, err := buf.Read(readBuf)
+		buf := make([]byte, 1024)
+		n, err := d.cmdPort.Read(buf)
 		if err != nil {
 			log.Println("read error:", err)
 			return err
 		}
 
+		if n == 0 {
+			log.Println("no data received")
+			return errors.New("no response from modem")
+		}
+
 		// Вывод "сырых" данных
-		log.Printf("RAW (%d bytes):\n%s\n", n, string(readBuf[:n]))
-		log.Printf("HEX:\n% x\n", readBuf[:n])
+		log.Printf("RAW (%d bytes):\n%s\n", n, string(buf[:n]))
+		log.Printf("HEX:\n% x\n", buf[:n])
 
 		// Пока ничего не парсим, просто выводим — для анализа
 		return nil
