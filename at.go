@@ -151,10 +151,7 @@ func (d *Device) Send(req string) (reply string, err error) {
 
 	log.Println("wait answer")
 
-	buf := bufio.NewReader(d.cmdPort)
-
 	err = d.withTimeout(func() error {
-
 		_, err := d.cmdPort.Write([]byte(req + Sep))
 		if err != nil {
 			return err
@@ -162,8 +159,10 @@ func (d *Device) Send(req string) (reply string, err error) {
 
 		log.Println("send")
 
-		//var line string
+		d.cmdPort.SetReadDeadline(time.Now().Add(2 * time.Second))
 
+		//var line string
+		buf := bufio.NewReader(d.cmdPort)
 		log.Println("reader init")
 		readBuf := make([]byte, 1024)
 		n, err := buf.Read(readBuf)
