@@ -17,7 +17,7 @@ import (
 const DefaultTimeout = time.Minute
 
 // <CR><LF> sequence.
-const Sep = "\r"
+const Sep = "\r\n"
 
 // Ctrl+Z code.
 const Sub = "\x1A"
@@ -149,81 +149,53 @@ func (d *Device) Send(req string) (reply string, err error) {
 		return
 	}
 
-	log.Println("wait answer")
-
 	err = d.withTimeout(func() error {
 		_, err := d.cmdPort.Write([]byte(req + Sep))
 		if err != nil {
 			return err
 		}
 
-		log.Println("send")
-
-		d.cmdPort.SetReadDeadline(time.Now().Add(2 * time.Second))
-		buf := make([]byte, 1024)
-		n, err := d.cmdPort.Read(buf)
-		if err != nil {
-			log.Println("read error:", err)
+		var line string
+		buf := bufio.NewReader(d.cmdPort)
+		if line, err = buf.ReadString('\r'); err != nil {
+			return err
+		}
+		text := strings.TrimSpace(line)
+		if !strings.HasPrefix(req, text) {
 			return err
 		}
 
-		if n == 0 {
-			log.Println("no data received")
-			return errors.New("no response from modem")
+		var done bool
+		for !done {
+			if line, err = buf.ReadString('\r'); err != nil {
+				break
+			}
+			text := strings.TrimSpace(line)
+			if len(text) < 1 {
+				continue
+			}
+			switch opt := FinalResults.Resolve(text); opt {
+			case FinalResults.Ok, FinalResults.Noop:
+				done = true
+			case FinalResults.Timeout:
+				err = ErrTimeout
+				done = true
+			case FinalResults.CmeError, FinalResults.CmsError:
+				err = errors.New(text)
+				done = true
+			case FinalResults.Error, FinalResults.NotSupported,
+				FinalResults.TooManyParameters, FinalResults.NoCarrier:
+				err = errors.New(opt.Description)
+				done = true
+			default:
+				if len(reply) > 0 {
+					reply += "\n"
+				}
+				reply += text
+			}
 		}
 
-		// Вывод "сырых" данных
-		log.Printf("RAW (%d bytes):\n%s\n", n, string(buf[:n]))
-		log.Printf("HEX:\n% x\n", buf[:n])
-
-		// Пока ничего не парсим, просто выводим — для анализа
-		return nil
-		//
-		//if line, err = buf.ReadString('\r'); err != nil {
-		//	log.Println("return error")
-		//	return err
-		//}
-		//text := strings.TrimSpace(line)
-		//log.Println("text: " + text)
-		//if !strings.HasPrefix(req, text) {
-		//	return err
-		//}
-		//
-		//var done bool
-		//for !done {
-		//	if line, err = buf.ReadString('\r'); err != nil {
-		//		break
-		//	}
-		//	text := strings.TrimSpace(line)
-		//
-		//	if len(text) < 1 {
-		//		continue
-		//	}
-		//
-		//	log.Println(text)
-		//
-		//	switch opt := FinalResults.Resolve(text); opt {
-		//	case FinalResults.Ok, FinalResults.Noop:
-		//		done = true
-		//	case FinalResults.Timeout:
-		//		err = ErrTimeout
-		//		done = true
-		//	case FinalResults.CmeError, FinalResults.CmsError:
-		//		err = errors.New(text)
-		//		done = true
-		//	case FinalResults.Error, FinalResults.NotSupported,
-		//		FinalResults.TooManyParameters, FinalResults.NoCarrier:
-		//		err = errors.New(opt.Description)
-		//		done = true
-		//	default:
-		//		if len(reply) > 0 {
-		//			reply += "\n"
-		//		}
-		//		reply += text
-		//	}
-		//}
-		//
-		//return err
+		return err
 	})
 
 	return
@@ -404,6 +376,7 @@ func (d *Device) handleReport(str string) (err error) {
 // The method returns error if open was not succeed, i.e. if device is absent.
 func (d *Device) Open() (err error) {
 	if d.cmdPort, err = os.OpenFile(d.CommandPort, os.O_RDWR, 0); err != nil {
+		log.Fatal(err)
 		return
 	}
 	if d.NotifyPort != "" && d.NotifyPort != d.CommandPort {
