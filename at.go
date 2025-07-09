@@ -427,6 +427,7 @@ func (d *Device) Close() (err error) {
 
 // SendUSSD sends an USSD request, the encoding and other parameters are default.
 func (d *Device) SendUSSD(req string) (err error) {
+	log.Println("SendUSSD: " + req)
 	err = d.Commands.CUSD(UssdResultReporting.Enable, pdu.Encode7Bit(req), Encodings.Gsm7Bit)
 	return
 }
