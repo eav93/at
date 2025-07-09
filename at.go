@@ -162,11 +162,11 @@ func (d *Device) Send(req string) (reply string, err error) {
 		var line string
 		buf := bufio.NewReader(d.cmdPort)
 		if line, err = buf.ReadString('\r'); err != nil {
-			log.Println(err)
+			log.Println("return error")
 			return err
 		}
 		text := strings.TrimSpace(line)
-		log.Println(text)
+		log.Println("text: " + text)
 		if !strings.HasPrefix(req, text) {
 			return err
 		}
