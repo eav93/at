@@ -157,9 +157,12 @@ func (d *Device) Send(req string) (reply string, err error) {
 			return err
 		}
 
+		log.Println("send")
+
 		var line string
 		buf := bufio.NewReader(d.cmdPort)
 		if line, err = buf.ReadString('\r'); err != nil {
+			log.Println(err)
 			return err
 		}
 		text := strings.TrimSpace(line)
