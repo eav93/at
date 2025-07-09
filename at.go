@@ -3,6 +3,7 @@ package at
 import (
 	"bufio"
 	"errors"
+	"log"
 	"os"
 	"strings"
 	"time"
@@ -170,9 +171,13 @@ func (d *Device) Send(req string) (reply string, err error) {
 				break
 			}
 			text := strings.TrimSpace(line)
+
 			if len(text) < 1 {
 				continue
 			}
+
+			log.Println(text)
+
 			switch opt := FinalResults.Resolve(text); opt {
 			case FinalResults.Ok, FinalResults.Noop:
 				done = true

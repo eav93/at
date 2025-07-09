@@ -51,7 +51,7 @@ type DefaultProfile struct {
 // Init invokes a set of methods that will make the initial setup of the modem.
 func (p *DefaultProfile) Init(d *Device) (err error) {
 	p.dev = d
-	//p.dev.Send(NoopCmd) // kinda flush
+	p.dev.Send(NoopCmd) // kinda flush
 	//if err = p.COPS(true, true); err != nil {
 	//	return fmt.Errorf("at init: unable to adjust the format of operator's name: %w", err)
 	//}
