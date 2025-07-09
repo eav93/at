@@ -53,22 +53,22 @@ type DefaultProfile struct {
 func (p *DefaultProfile) Init(d *Device) (err error) {
 	p.dev = d
 	p.dev.Send(NoopCmd) // kinda flush
-	log.Println("at send")
 	//if err = p.COPS(true, true); err != nil {
 	//	return fmt.Errorf("at init: unable to adjust the format of operator's name: %w", err)
 	//}
-	var info *SystemInfoReport
-	if info, err = p.SYSINFO(); err != nil {
-		return fmt.Errorf("at init: unable to read system info: %w", err)
-	}
-	p.dev.State = &DeviceState{
-		ServiceState:  info.ServiceState,
-		ServiceDomain: info.ServiceDomain,
-		RoamingState:  info.RoamingState,
-		SystemMode:    info.SystemMode,
-		SystemSubmode: info.SystemSubmode,
-		SimState:      info.SimState,
-	}
+	//var info *SystemInfoReport
+	//if info, err = p.SYSINFO(); err != nil {
+	//	return fmt.Errorf("at init: unable to read system info: %w", err)
+	//}
+	//p.dev.State = &DeviceState{
+	//	ServiceState:  info.ServiceState,
+	//	ServiceState:  info.ServiceState,
+	//	ServiceDomain: info.ServiceDomain,
+	//	RoamingState:  info.RoamingState,
+	//	SystemMode:    info.SystemMode,
+	//	SystemSubmode: info.SystemSubmode,
+	//	SimState:      info.SimState,
+	//}
 	if p.dev.State.OperatorName, err = p.OperatorName(); err != nil {
 		return fmt.Errorf("at init: unable to read operator's name: %w", err)
 	}
