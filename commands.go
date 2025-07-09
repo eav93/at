@@ -3,6 +3,7 @@ package at
 import (
 	"errors"
 	"fmt"
+	"log"
 	"strings"
 
 	"github.com/eav93/at/calls"
@@ -52,6 +53,7 @@ type DefaultProfile struct {
 func (p *DefaultProfile) Init(d *Device) (err error) {
 	p.dev = d
 	p.dev.Send(NoopCmd) // kinda flush
+	log.Println("at send")
 	//if err = p.COPS(true, true); err != nil {
 	//	return fmt.Errorf("at init: unable to adjust the format of operator's name: %w", err)
 	//}
